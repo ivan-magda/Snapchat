@@ -19,6 +19,11 @@ class UserListTableViewController: UITableViewController {
     
     private var activityIndicator: UIActivityIndicatorView!
     
+    private var isAlertPresented = false
+    
+    private let checkForMessagesFireTime: NSTimeInterval = 8
+    private let presentedImageDeletionFireTime: NSTimeInterval = 8
+    
     //--------------------------------------
     // MARK: - View Life Cycle
     //--------------------------------------
@@ -27,6 +32,8 @@ class UserListTableViewController: UITableViewController {
         super.viewDidLoad()
         
         loadObjects()
+        
+        _ = NSTimer.scheduledTimerWithTimeInterval(checkForMessagesFireTime, target: self, selector: Selector("checkForMessage"), userInfo: nil, repeats: true)
         
         self.activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
         self.activityIndicator.hidesWhenStopped = true
@@ -61,10 +68,95 @@ class UserListTableViewController: UITableViewController {
     }
     
     private func displayAlertWithTitle(title: String, message: String) {
+        if isAlertPresented {
+            return
+        }
+        
+        self.isAlertPresented = true
+        
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Ok", style: .Cancel) { action in
+            self.isAlertPresented = false
+            })
         
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func checkForMessage() {
+        guard PFUser.currentUser()?.username != nil else {
+            return
+        }
+        
+        let query = PFQuery(className: Image.parseClassName())
+        query.whereKey(Image.FieldKey.recipientUsername.rawValue, equalTo: PFUser.currentUser()!.username!)
+        
+        query.findObjectsInBackgroundWithBlock() { (images, error) in
+            if let error = error {
+                self.displayAlertWithTitle("Error", message: error.localizedDescription)
+            } else if let images = images as? [Image] where images.count > 0 {
+                let anImage = images[0]
+                let photoFile = anImage.photo
+                
+                photoFile.getDataInBackgroundWithBlock() { (data, error) in
+                    if let error = error {
+                        self.displayAlertWithTitle("Error", message: error.localizedDescription)
+                    } else if let data = data where data.length > 0 && self.isAlertPresented == false {
+                        if let imageToShow = UIImage(data: data) {
+                            self.isAlertPresented = true
+                            
+                            let alert = UIAlertController(title: "You have a message", message: "Message from \(anImage.senderUsername)", preferredStyle: .Alert)
+                            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel) { action in
+                                self.isAlertPresented = false
+                                })
+                            alert.addAction(UIAlertAction(title: "Show", style: .Default) { action in
+                                // Present an image.
+                                let imageView = UIImageView(frame: CGRectMake(0.0, 0.0, CGRectGetWidth(self.navigationController!.view.bounds), CGRectGetHeight(self.navigationController!.view.bounds)))
+                                imageView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.45)
+                                imageView.image = imageToShow
+                                imageView.contentMode = UIViewContentMode.ScaleAspectFit
+                                
+                                self.navigationController!.view.addSubview(imageView)
+                                
+                                /// Removes image view from it's superview.
+                                func removeImageView() {
+                                    let outFrame = CGRectMake(CGRectGetWidth(self.view.bounds), imageView.frame.origin.y, CGRectGetWidth(imageView.bounds), CGRectGetHeight(imageView.bounds))
+                                    
+                                    UIView.animateWithDuration(0.75, animations: {
+                                        imageView.frame = outFrame
+                                        imageView.alpha = 0.0
+                                        }, completion: { finished in
+                                            if finished {
+                                                imageView.removeFromSuperview()
+                                                self.isAlertPresented = false
+                                            }
+                                    })
+                                }
+                                
+                                // Remove an image.
+                                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(self.presentedImageDeletionFireTime * Double(NSEC_PER_SEC)))
+                                dispatch_after(delayTime, dispatch_get_main_queue()) {
+                                    anImage.deleteInBackgroundWithBlock() { (success, error) in
+                                        if success {
+                                            removeImageView()
+                                        } else if let error = error {
+                                            removeImageView()
+                                            
+                                            self.displayAlertWithTitle("Error", message: error.localizedDescription)
+                                        } else {
+                                            removeImageView()
+                                        }
+                                    }
+                                }
+                                })
+                            
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        } else {
+                            self.isAlertPresented = false
+                        }
+                    }
+                }
+            }
+        }
     }
     
     //--------------------------------------
@@ -185,10 +277,16 @@ extension UserListTableViewController: UINavigationControllerDelegate, UIImagePi
         
         if let pickedImage = pickedImage {
             if let data = UIImageJPEGRepresentation(pickedImage, 0.5) {
-                let imageToSend = PFObject(className: "Image")
-                imageToSend["photo"] = PFFile(name: "photo.jpg", data: data)
-                imageToSend["senderUsername"] = PFUser.currentUser()!.username!
-                imageToSend["recipientUsername"] = self.recipient
+                let imageToSend = Image()
+                imageToSend.photo = PFFile(name: "photo.jpg", data: data)!
+                imageToSend.senderUsername = PFUser.currentUser()!.username!
+                imageToSend.recipientUsername = self.recipient!
+                
+                let publicACL = PFACL()
+                publicACL.publicReadAccess = true
+                publicACL.publicWriteAccess = true
+                
+                imageToSend.ACL = publicACL
                 
                 self.activityIndicator.startAnimating()
                 self.view.addSubview(self.activityIndicator!)

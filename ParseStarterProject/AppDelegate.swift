@@ -8,14 +8,16 @@
 */
 
 import UIKit
-
 import Parse
-
-// If you want to use any of the UI components, uncomment this line
-// import ParseUI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    //--------------------------------------
+    // MARK: - Properties
+    //--------------------------------------
+    
+    private let parseApplicationId = "YOUR_PARSE_APPLICATION_ID"
+    private let parseClientKey = "YOUR_PARSE_CLIENT_KEY"
 
     var window: UIWindow?
 
@@ -27,10 +29,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Enable storing and querying data from Local Datastore.
         // Remove this line if you don't want to use Local Datastore features or want to use cachePolicy.
         Parse.enableLocalDatastore()
+        
+        Image.registerSubclass()
+        
+        Parse.setApplicationId(parseApplicationId, clientKey: parseClientKey)
 
         // ****************************************************************************
-        Parse.setApplicationId("hL1xTUr92IskQXgdEj0AZB7eMvV2jO1jHhnLh5UD", clientKey: "ET6HMILPmHac0oG9LjBogorbAtdB6VgacpBs0aqC")
-        
         // If you are using Facebook, uncomment and add your FacebookAppID to your bundle's plist as
         // described here: https://developers.facebook.com/docs/getting-started/facebook-sdk-for-ios/
         // Uncomment the line inside ParseStartProject-Bridging-Header and the following line here:
