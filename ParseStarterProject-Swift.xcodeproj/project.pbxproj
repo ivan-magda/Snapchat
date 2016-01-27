@@ -8,10 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		753627F71C58586200BD1228 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 753627F61C58586200BD1228 /* LaunchScreen.storyboard */; };
+		753627FB1C58681000BD1228 /* Exit.png in Resources */ = {isa = PBXBuildFile; fileRef = 753627F81C58681000BD1228 /* Exit.png */; };
+		753627FC1C58681000BD1228 /* Exit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 753627F91C58681000BD1228 /* Exit@2x.png */; };
+		753627FD1C58681000BD1228 /* Exit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 753627FA1C58681000BD1228 /* Exit@3x.png */; };
+		753627FF1C58683700BD1228 /* UserListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753627FE1C58683700BD1228 /* UserListTableViewController.swift */; };
 		814C3ACA1B69877600E307BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 814C3AC61B69877600E307BB /* Main.storyboard */; };
 		814C3ACB1B69877600E307BB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 814C3AC81B69877600E307BB /* Images.xcassets */; };
 		81BA814B1A49DA1800E65899 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BA814A1A49DA1800E65899 /* AppDelegate.swift */; };
-		81BA814D1A49DA1800E65899 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BA814C1A49DA1800E65899 /* ViewController.swift */; };
+		81BA814D1A49DA1800E65899 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BA814C1A49DA1800E65899 /* AuthorizationViewController.swift */; };
 		81BA81701A49DB6800E65899 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA816B1A49DB6800E65899 /* Bolts.framework */; };
 		81BA81711A49DB6800E65899 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA816C1A49DB6800E65899 /* Parse.framework */; };
 		81BA81771A49E0D500E65899 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA81761A49E0D500E65899 /* libsqlite3.dylib */; };
@@ -22,12 +26,16 @@
 
 /* Begin PBXFileReference section */
 		753627F61C58586200BD1228 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		753627F81C58681000BD1228 /* Exit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Exit.png; sourceTree = "<group>"; };
+		753627F91C58681000BD1228 /* Exit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Exit@2x.png"; sourceTree = "<group>"; };
+		753627FA1C58681000BD1228 /* Exit@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Exit@3x.png"; sourceTree = "<group>"; };
+		753627FE1C58683700BD1228 /* UserListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListTableViewController.swift; sourceTree = "<group>"; };
 		814C3AC71B69877600E307BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		814C3AC81B69877600E307BB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		814C3AC91B69877600E307BB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81BA81451A49DA1800E65899 /* ParseStarterProject-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ParseStarterProject-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81BA814A1A49DA1800E65899 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		81BA814C1A49DA1800E65899 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		81BA814C1A49DA1800E65899 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		81BA816B1A49DB6800E65899 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		81BA816C1A49DB6800E65899 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		81BA816E1A49DB6800E65899 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
@@ -60,6 +68,9 @@
 			children = (
 				814C3AC81B69877600E307BB /* Images.xcassets */,
 				814C3AC91B69877600E307BB /* Info.plist */,
+				753627F81C58681000BD1228 /* Exit.png */,
+				753627F91C58681000BD1228 /* Exit@2x.png */,
+				753627FA1C58681000BD1228 /* Exit@3x.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -86,7 +97,8 @@
 			isa = PBXGroup;
 			children = (
 				81BA814A1A49DA1800E65899 /* AppDelegate.swift */,
-				81BA814C1A49DA1800E65899 /* ViewController.swift */,
+				81BA814C1A49DA1800E65899 /* AuthorizationViewController.swift */,
+				753627FE1C58683700BD1228 /* UserListTableViewController.swift */,
 				814C3AC61B69877600E307BB /* Main.storyboard */,
 				753627F61C58586200BD1228 /* LaunchScreen.storyboard */,
 			);
@@ -174,7 +186,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				753627FC1C58681000BD1228 /* Exit@2x.png in Resources */,
 				753627F71C58586200BD1228 /* LaunchScreen.storyboard in Resources */,
+				753627FB1C58681000BD1228 /* Exit.png in Resources */,
+				753627FD1C58681000BD1228 /* Exit@3x.png in Resources */,
 				814C3ACA1B69877600E307BB /* Main.storyboard in Resources */,
 				814C3ACB1B69877600E307BB /* Images.xcassets in Resources */,
 			);
@@ -187,7 +202,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81BA814D1A49DA1800E65899 /* ViewController.swift in Sources */,
+				753627FF1C58683700BD1228 /* UserListTableViewController.swift in Sources */,
+				81BA814D1A49DA1800E65899 /* AuthorizationViewController.swift in Sources */,
 				81BA814B1A49DA1800E65899 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
