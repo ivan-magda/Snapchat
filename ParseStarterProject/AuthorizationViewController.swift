@@ -11,7 +11,9 @@ import UIKit
 import Parse
 
 class AuthorizationViewController: UIViewController {
+    //--------------------------------------
     // MARK: - Properties
+    //--------------------------------------
     
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
@@ -19,7 +21,9 @@ class AuthorizationViewController: UIViewController {
     private let showUserTableSegueIdentifier = "ShowUserTable"
     private let defaultPassword = "password"
 
+    //--------------------------------------
     // MARK: - View Life Cycle
+    //--------------------------------------
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +45,9 @@ class AuthorizationViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    //--------------------------------------
     // MARK: - Private
+    //--------------------------------------
     
     private func setErrorMessageToTheLabelWithAnimation(errorMessage error: String) {
         self.errorLabel.alpha = 0.0
@@ -53,7 +59,9 @@ class AuthorizationViewController: UIViewController {
             }, completion: nil)
     }
 
+    //--------------------------------------
     // MARK: - Actions
+    //--------------------------------------
     
     @IBAction func signUp(sender: AnyObject) {
         self.usernameTextField.resignFirstResponder()
